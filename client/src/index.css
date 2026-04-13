@@ -1,9 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-sanui-blue: var(--sanui-blue);
+  --color-sanui-blue-light: var(--sanui-blue-light);
+  --color-sanui-blue-dark: var(--sanui-blue-dark);
+  --color-sanui-green: var(--sanui-green);
+  --color-sanui-green-light: var(--sanui-green-light);
+  --color-sanui-yellow: var(--sanui-yellow);
+  --color-sanui-yellow-bright: var(--sanui-yellow-bright);
+  --color-sanui-kraft: var(--sanui-kraft);
+  --color-sanui-kraft-dark: var(--sanui-kraft-dark);
+  --color-sanui-dark: var(--sanui-dark);
+  --color-sanui-graphite: var(--sanui-graphite);
+  --color-sanui-white: var(--sanui-white);
+  --color-sanui-off-white: var(--sanui-off-white);
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-sans: 'Space Grotesk', 'Inter', sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -43,6 +59,21 @@
 }
 
 :root {
+  /* SANUI Brand Colors */
+  --sanui-blue: oklch(0.62 0.19 218);
+  --sanui-blue-light: oklch(0.78 0.14 215);
+  --sanui-blue-dark: oklch(0.44 0.18 225);
+  --sanui-green: oklch(0.70 0.22 142);
+  --sanui-green-light: oklch(0.83 0.18 140);
+  --sanui-yellow: oklch(0.88 0.20 90);
+  --sanui-yellow-bright: oklch(0.93 0.22 88);
+  --sanui-kraft: oklch(0.82 0.06 75);
+  --sanui-kraft-dark: oklch(0.68 0.08 72);
+  --sanui-dark: oklch(0.13 0.01 260);
+  --sanui-graphite: oklch(0.21 0.01 260);
+  --sanui-white: oklch(0.99 0 0);
+  --sanui-off-white: oklch(0.97 0.005 80);
+
   --primary: var(--color-blue-700);
   --primary-foreground: var(--color-blue-50);
   --sidebar-primary: var(--color-blue-600);
@@ -119,6 +150,16 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.02em;
+  }
+  h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -131,6 +172,52 @@
   input[type="radio"]:not(:disabled) {
     @apply cursor-pointer;
   }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.02em;
+  }
+  .bg-sanui-gradient {
+    background: linear-gradient(135deg, var(--sanui-blue) 0%, var(--sanui-green) 100%);
+  }
+  .bg-sanui-dark-gradient {
+    background: linear-gradient(135deg, var(--sanui-dark) 0%, var(--sanui-graphite) 100%);
+  }
+  .text-sanui-gradient {
+    background: linear-gradient(90deg, var(--sanui-blue) 0%, var(--sanui-green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .product-card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .product-card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  }
+  .section-dark {
+    background: var(--sanui-dark);
+    color: var(--sanui-white);
+  }
+  .section-kraft {
+    background: var(--sanui-off-white);
+  }
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @layer components {

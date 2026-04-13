@@ -7,6 +7,7 @@ import { CartProvider } from "@/contexts/CartContext";
 import About from "@/pages/About";
 import Cart from "@/pages/Cart";
 import Checkout from "@/pages/Checkout";
+import Community from "@/pages/Community";
 import FAQ from "@/pages/FAQ";
 import Home from "@/pages/Home";
 import ProductPage from "@/pages/ProductPage";
@@ -36,6 +37,7 @@ function Router() {
       <Route path="/faq" component={FAQ} />
       <Route path="/carrito" component={Cart} />
       <Route path="/checkout" component={Checkout} />
+      <Route path="/comunidad" component={Community} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

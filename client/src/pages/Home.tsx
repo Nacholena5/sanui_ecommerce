@@ -1,6 +1,8 @@
 import { useCart } from "@/contexts/CartContext";
+import { IG } from "@/data/igPhotos";
 import { products } from "@/data/products";
-import { ArrowRight, CheckCircle2, ChevronRight, Leaf, ShieldCheck, Star, Zap } from "lucide-react";
+import { trpc } from "@/lib/trpc";
+import { ArrowRight, CheckCircle2, ChevronRight, ExternalLink, Heart, Instagram, Leaf, MessageCircle, Play, ShieldCheck, Star, Zap } from "lucide-react";
 import { Link } from "wouter";
 
 // ─── Hero Section ────────────────────────────────────────────────────────────
@@ -71,27 +73,13 @@ function HeroSection() {
           {/* Product visual */}
           <div className="order-1 lg:order-2 flex justify-center">
             <div className="relative">
-              {/* Main product placeholder */}
+              {/* Foto real del producto @sanui.uy */}
               <div className="w-72 h-72 md:w-96 md:h-96 rounded-3xl overflow-hidden animate-float shadow-2xl shadow-sanui-blue/20">
-                <div className="w-full h-full bg-gradient-to-br from-sanui-blue via-sanui-blue-dark to-sanui-dark flex flex-col items-center justify-center gap-4 p-8">
-                  <div className="text-center">
-                    <span className="font-display text-5xl text-sanui-yellow tracking-widest block">
-                      SANUI
-                    </span>
-                    <span className="text-white/60 text-xs uppercase tracking-widest block mt-1">
-                      Protein Balls
-                    </span>
-                  </div>
-                  <div className="w-32 h-32 rounded-full bg-white/10 border-2 border-sanui-yellow/40 flex items-center justify-center">
-                    <div className="text-center">
-                      <span className="font-display text-3xl text-white block">120g</span>
-                      <span className="text-sanui-green text-xs font-bold block">VEGANO</span>
-                    </div>
-                  </div>
-                  <p className="text-white/50 text-xs text-center">
-                    [Foto real del producto]
-                  </p>
-                </div>
+                <img
+                  src={IG.product_hero}
+                  alt="SANUI Protein Balls"
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               {/* Floating badges */}
@@ -209,17 +197,7 @@ function FeaturedProducts() {
                     src={product.images[0]}
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                    }}
                   />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center p-4">
-                      <span className="font-display text-3xl text-sanui-blue block">SANUI</span>
-                      <span className="text-gray-500 text-xs">{product.flavor}</span>
-                      <p className="text-gray-400 text-xs mt-2">[Foto del producto]</p>
-                    </div>
-                  </div>
                   {product.badge && (
                     <div className="absolute top-3 left-3 bg-sanui-yellow text-sanui-dark text-xs font-black px-3 py-1 rounded-full">
                       {product.badge}
@@ -303,26 +281,22 @@ function LifestyleSection() {
             </Link>
           </div>
 
-          {/* Photo grid */}
+          {/* Photo grid — fotos reales de @sanui.uy */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-4">
-              <div className="h-48 rounded-3xl bg-gradient-to-br from-sanui-blue/30 to-sanui-blue/10 flex flex-col items-center justify-center p-4 text-center">
-                <span className="text-sanui-blue font-bold text-sm">☀️ Verano</span>
-                <span className="text-gray-400 text-xs mt-1">[Foto lifestyle playa]</span>
+              <div className="h-48 rounded-3xl overflow-hidden">
+                <img src={IG.lifestyle_beach} alt="SANUI Beach Run" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
               </div>
-              <div className="h-64 rounded-3xl bg-gradient-to-br from-sanui-green/30 to-sanui-green/10 flex flex-col items-center justify-center p-4 text-center">
-                <span className="text-sanui-green font-bold text-sm">🌿 Natural</span>
-                <span className="text-gray-400 text-xs mt-1">[Foto producto en mano]</span>
+              <div className="h-64 rounded-3xl overflow-hidden">
+                <img src={IG.product_lifestyle} alt="SANUI energía" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
               </div>
             </div>
             <div className="space-y-4 mt-8">
-              <div className="h-64 rounded-3xl bg-gradient-to-br from-sanui-yellow/30 to-sanui-yellow/10 flex flex-col items-center justify-center p-4 text-center">
-                <span className="text-yellow-600 font-bold text-sm">⚡ Energía</span>
-                <span className="text-gray-400 text-xs mt-1">[Foto producto activo]</span>
+              <div className="h-64 rounded-3xl overflow-hidden">
+                <img src={IG.product_hero} alt="SANUI Protein Balls" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
               </div>
-              <div className="h-48 rounded-3xl bg-gradient-to-br from-sanui-kraft/50 to-sanui-kraft/20 flex flex-col items-center justify-center p-4 text-center">
-                <span className="text-sanui-kraft-dark font-bold text-sm">🎯 Rutina</span>
-                <span className="text-gray-400 text-xs mt-1">[Foto lifestyle]</span>
+              <div className="h-48 rounded-3xl overflow-hidden">
+                <img src={IG.lifestyle_social} alt="SANUI lifestyle" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
               </div>
             </div>
           </div>
@@ -342,19 +316,18 @@ function GymSection() {
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Gym photo placeholder */}
+          {/* Fotos reales de @sanui.uy — eventos y gym */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="col-span-2 h-56 rounded-3xl bg-gradient-to-br from-sanui-graphite to-sanui-dark border border-white/10 flex flex-col items-center justify-center p-6 text-center">
-              <span className="text-white font-bold text-base mb-1">💪 Gym</span>
-              <span className="text-gray-500 text-sm">[Foto en gimnasio con producto]</span>
+            <div className="col-span-2 h-56 rounded-3xl overflow-hidden relative">
+              <img src={IG.gym_event} alt="SANUI en Punta Carretas" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              <span className="absolute bottom-3 left-4 text-white text-xs font-bold uppercase tracking-wider opacity-80">@sanui.uy</span>
             </div>
-            <div className="h-40 rounded-3xl bg-gradient-to-br from-sanui-blue/20 to-sanui-blue/5 border border-sanui-blue/20 flex flex-col items-center justify-center p-4 text-center">
-              <span className="text-sanui-blue font-bold text-sm">🏃 Activo</span>
-              <span className="text-gray-600 text-xs mt-1">[Foto running]</span>
+            <div className="h-40 rounded-3xl overflow-hidden">
+              <img src={IG.lifestyle_run} alt="SANUI Beach Run" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
             </div>
-            <div className="h-40 rounded-3xl bg-gradient-to-br from-sanui-green/20 to-sanui-green/5 border border-sanui-green/20 flex flex-col items-center justify-center p-4 text-center">
-              <span className="text-sanui-green font-bold text-sm">🎯 Rendimiento</span>
-              <span className="text-gray-600 text-xs mt-1">[Foto entrenamiento]</span>
+            <div className="h-40 rounded-3xl overflow-hidden">
+              <img src={IG.lifestyle_event} alt="SANUI Ironman" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
             </div>
           </div>
 
@@ -506,6 +479,156 @@ function FinalCTASection() {
   );
 }
 
+// ─── Community / Instagram Section ───────────────────────────────────────────
+function CommunitySection() {
+  const { data, isLoading } = trpc.instagram.getPosts.useQuery({ limit: 9 });
+
+  const formatCaption = (caption: string) => {
+    const lines = caption.split("\n").filter(Boolean);
+    return lines[0]?.replace(/#\w+/g, "").trim() || "";
+  };
+
+  const formatDate = (ts: string) => {
+    const d = new Date(ts);
+    return d.toLocaleDateString("es-UY", { day: "numeric", month: "short" });
+  };
+
+  return (
+    <section className="bg-sanui-dark py-20 overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#f09433] via-[#e6683c] to-[#bc1888] flex items-center justify-center">
+                <Instagram size={16} className="text-white" />
+              </div>
+              <span className="text-gray-400 text-sm font-semibold uppercase tracking-widest">Instagram</span>
+            </div>
+            <h2 className="font-display text-5xl sm:text-6xl text-white leading-none">
+              TEAM <span className="text-sanui-green">SANUI</span>
+            </h2>
+            <p className="text-gray-400 mt-2 text-base">
+              Lo que pasa en la comunidad. Sin filtros.
+            </p>
+          </div>
+          <a
+            href="https://www.instagram.com/sanui.uy/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-5 py-3 rounded-2xl font-bold text-sm uppercase tracking-wider transition-all hover:scale-105 flex-shrink-0"
+          >
+            <Instagram size={16} />
+            @sanui.uy
+            <ExternalLink size={14} className="opacity-60" />
+          </a>
+        </div>
+
+        {/* Stats bar */}
+        {data && (
+          <div className="flex items-center gap-6 mb-10 pb-10 border-b border-white/10">
+            <div className="text-center">
+              <div className="font-display text-3xl text-white">{data.account.followers.toLocaleString("es-UY")}</div>
+              <div className="text-gray-500 text-xs uppercase tracking-wider mt-0.5">Seguidores</div>
+            </div>
+            <div className="w-px h-10 bg-white/10" />
+            <div className="text-center">
+              <div className="font-display text-3xl text-white">{data.account.posts}</div>
+              <div className="text-gray-500 text-xs uppercase tracking-wider mt-0.5">Posts</div>
+            </div>
+            <div className="w-px h-10 bg-white/10" />
+            <div className="text-center">
+              <div className="font-display text-3xl text-sanui-yellow">{data.totalLikes}+</div>
+              <div className="text-gray-500 text-xs uppercase tracking-wider mt-0.5">Likes totales</div>
+            </div>
+            <div className="flex-1" />
+            <Link
+              href="/comunidad"
+              className="hidden sm:inline-flex items-center gap-2 text-sanui-blue text-sm font-semibold hover:text-sanui-blue-light transition-colors"
+            >
+              Ver todo
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+        )}
+
+        {/* Grid */}
+        {isLoading ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {Array.from({ length: 9 }).map((_, i) => (
+              <div key={i} className="aspect-square rounded-2xl bg-white/5 animate-pulse" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {(data?.posts ?? []).map((post) => (
+              <a
+                key={post.id}
+                href={post.permalink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative aspect-square rounded-2xl overflow-hidden bg-white/5"
+              >
+                {/* Thumbnail */}
+                <img
+                  src={post.thumbnail}
+                  alt={formatCaption(post.caption)}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                    e.currentTarget.nextElementSibling?.classList.remove("hidden");
+                  }}
+                />
+                {/* Fallback */}
+                <div className="hidden absolute inset-0 bg-gradient-to-br from-sanui-blue/30 to-sanui-green/20 flex items-center justify-center">
+                  <Instagram size={32} className="text-white/40" />
+                </div>
+
+                {/* Video badge */}
+                {post.type === "VIDEO" && (
+                  <div className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/60 flex items-center justify-center">
+                    <Play size={12} className="text-white fill-white" />
+                  </div>
+                )}
+
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-sanui-dark/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3 p-4">
+                  <div className="flex items-center gap-4 text-white">
+                    <span className="flex items-center gap-1.5 text-sm font-bold">
+                      <Heart size={16} className="fill-red-400 text-red-400" />
+                      {post.likes}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-sm font-bold">
+                      <MessageCircle size={16} />
+                      {post.comments}
+                    </span>
+                  </div>
+                  <p className="text-white/80 text-xs text-center leading-relaxed line-clamp-3">
+                    {formatCaption(post.caption)}
+                  </p>
+                  <span className="text-gray-500 text-xs">{formatDate(post.timestamp)}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+
+        {/* Mobile CTA */}
+        <div className="mt-8 text-center sm:hidden">
+          <Link
+            href="/comunidad"
+            className="inline-flex items-center gap-2 text-sanui-blue text-sm font-semibold"
+          >
+            Ver toda la comunidad
+            <ArrowRight size={16} />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── Main Home Component ──────────────────────────────────────────────────────
 export default function Home() {
   return (
@@ -515,6 +638,7 @@ export default function Home() {
       <FeaturedProducts />
       <LifestyleSection />
       <GymSection />
+      <CommunitySection />
       <SocialProofSection />
       <FinalCTASection />
     </div>

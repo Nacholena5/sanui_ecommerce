@@ -21,9 +21,15 @@ export interface Product {
   nutritionHighlights: string[];
 }
 
-// Placeholder image URLs using a gradient-based placeholder service
-const PRODUCT_PLACEHOLDER = (flavor: string, color1: string, color2: string) =>
-  `https://placehold.co/600x600/${color1}/${color2}?text=SANUI+${encodeURIComponent(flavor)}`;
+// Fotos reales de @sanui.uy (Instagram)
+import { IG } from "./igPhotos";
+const IMG = {
+  choco: IG.product_hero,
+  vanilla: IG.product_2,
+  peanut: IG.product_gym,
+  lifestyle: IG.lifestyle_event,
+  gym: IG.gym_event,
+};
 
 export const products: Product[] = [
   {
@@ -46,11 +52,7 @@ export const products: Product[] = [
     tags: ["vegano", "sin-gluten", "sin-azucar"],
     badge: "Más vendido",
     inStock: true,
-    images: [
-      PRODUCT_PLACEHOLDER("Chocolate", "1ABCFE", "FFFFFF"),
-      PRODUCT_PLACEHOLDER("Chocolate+2", "0A8FBF", "FFFFFF"),
-      PRODUCT_PLACEHOLDER("Chocolate+3", "2ECC71", "FFFFFF"),
-    ],
+    images: [IMG.choco, IMG.lifestyle, IMG.gym],
     nutritionHighlights: [
       "12g de proteína por porción",
       "Sin azúcares agregados",
@@ -79,11 +81,7 @@ export const products: Product[] = [
     tags: ["vegano", "sin-gluten", "sin-azucar"],
     badge: "Nuevo",
     inStock: true,
-    images: [
-      PRODUCT_PLACEHOLDER("Man%C3%AD", "F4D03F", "1A1A2E"),
-      PRODUCT_PLACEHOLDER("Man%C3%AD+2", "E8B800", "1A1A2E"),
-      PRODUCT_PLACEHOLDER("Man%C3%AD+3", "1ABCFE", "FFFFFF"),
-    ],
+    images: [IMG.peanut, IMG.choco, IMG.lifestyle],
     nutritionHighlights: [
       "13g de proteína por porción",
       "Sin azúcares agregados",
@@ -111,11 +109,7 @@ export const products: Product[] = [
       "Dátiles, coco rallado, proteína de guisante, ralladura de limón, aceite de coco, vainilla natural.",
     tags: ["vegano", "sin-gluten", "sin-azucar"],
     inStock: true,
-    images: [
-      PRODUCT_PLACEHOLDER("Coco+Lim%C3%B3n", "2ECC71", "FFFFFF"),
-      PRODUCT_PLACEHOLDER("Coco+2", "27AE60", "FFFFFF"),
-      PRODUCT_PLACEHOLDER("Coco+3", "1ABCFE", "FFFFFF"),
-    ],
+    images: [IMG.vanilla, IMG.lifestyle, IMG.peanut],
     nutritionHighlights: [
       "11g de proteína por porción",
       "Sin azúcares agregados",
@@ -144,11 +138,7 @@ export const products: Product[] = [
     tags: ["vegano", "sin-gluten", "sin-azucar", "pack"],
     badge: "Ahorrá 10%",
     inStock: true,
-    images: [
-      PRODUCT_PLACEHOLDER("Mix+Pack", "1ABCFE", "FFFFFF"),
-      PRODUCT_PLACEHOLDER("Mix+2", "2ECC71", "FFFFFF"),
-      PRODUCT_PLACEHOLDER("Mix+3", "F4D03F", "1A1A2E"),
-    ],
+    images: [IMG.choco, IMG.peanut, IMG.vanilla],
     nutritionHighlights: [
       "3 sabores distintos",
       "Sin azúcares agregados",
@@ -177,11 +167,7 @@ export const products: Product[] = [
     tags: ["vegano", "sin-gluten", "sin-azucar", "alto-proteina"],
     badge: "Alto en proteína",
     inStock: true,
-    images: [
-      PRODUCT_PLACEHOLDER("Trek", "1A1A2E", "F4D03F"),
-      PRODUCT_PLACEHOLDER("Trek+2", "1ABCFE", "FFFFFF"),
-      PRODUCT_PLACEHOLDER("Trek+3", "2ECC71", "FFFFFF"),
-    ],
+    images: [IMG.gym, IMG.choco, IMG.lifestyle],
     nutritionHighlights: [
       "15g de proteína por porción",
       "Sin azúcares agregados",
@@ -209,11 +195,7 @@ export const products: Product[] = [
       "Dátiles, proteína de guisante, mantequilla de anacardo, extracto de vainilla, sal marina.",
     tags: ["vegano", "sin-gluten", "sin-azucar"],
     inStock: false,
-    images: [
-      PRODUCT_PLACEHOLDER("Caramelo", "E8B800", "1A1A2E"),
-      PRODUCT_PLACEHOLDER("Caramelo+2", "F4D03F", "1A1A2E"),
-      PRODUCT_PLACEHOLDER("Caramelo+3", "1ABCFE", "FFFFFF"),
-    ],
+    images: [IMG.vanilla, IMG.peanut, IMG.choco],
     nutritionHighlights: [
       "11g de proteína por porción",
       "Sin azúcares agregados",

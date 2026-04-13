@@ -129,11 +129,11 @@ function HeroSection() {
           {/* Product visual */}
           <div className="order-1 lg:order-2 flex justify-center">
             <div className="relative">
-              {/* Foto real del producto @sanui.uy */}
+              {/* Foto de evento con personas @sanui.uy */}
               <div className="w-72 h-72 md:w-96 md:h-96 rounded-3xl overflow-hidden animate-float shadow-2xl shadow-sanui-blue/20">
                 <img
-                  src={IG.product_hero}
-                  alt="SANUI Bolitas Proteicas"
+                  src={IG.gym_event}
+                  alt="SANUI en eventos - Comunidad activa"
                   className="w-full h-full object-cover"
                 />
               </div>

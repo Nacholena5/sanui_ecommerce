@@ -165,7 +165,13 @@ export default function Store() {
               >
                 {/* Image */}
                 <Link href={`/producto/${product.id}`}>
-                  <div className="relative h-60 bg-gradient-to-br from-sanui-blue/15 to-sanui-green/15 flex items-center justify-center overflow-hidden">
+                  <div className={`relative h-60 flex items-center justify-center overflow-hidden ${
+                    product.flavor.toLowerCase().includes('chocolate') 
+                      ? 'bg-gradient-to-br from-blue-100 to-blue-200' 
+                      : product.flavor.toLowerCase().includes('vainilla') 
+                      ? 'bg-gradient-to-br from-green-100 to-green-200'
+                      : 'bg-gradient-to-br from-sanui-blue/15 to-sanui-green/15'
+                  }`}>
                     <img
                       src={product.images[0]}
                       alt={product.name}

@@ -1,6 +1,6 @@
 {
-  "buildCommand": "cd client && npm run build",
-  "outputDirectory": "client/dist",
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "dist/public",
   "framework": "vite",
   "cleanUrls": true,
   "routes": [

@@ -87,30 +87,26 @@
 - [x] Tests de validación del checkout
 
 ## Rediseño Visual Premium (v2)
-- [ ] Generar imágenes de producto con IA (6 productos × 2 imágenes)
-- [ ] Generar imágenes lifestyle (playa, gym, producto en mano)
-- [ ] Subir todas las imágenes al CDN
-- [ ] Actualizar datos de productos con URLs reales
-- [ ] Instalar y configurar Framer Motion para animaciones
-- [ ] Hero: animación 3D del producto, partículas flotantes, texto animado
-- [ ] Hero: efecto parallax en scroll
-- [ ] Sección valores: cards con hover 3D tilt effect
-- [ ] Productos: cards con glassmorphism y hover elevado
-- [ ] Bloque gym: imagen real con overlay y texto animado
-- [ ] Sección lifestyle: grid de fotos reales con animaciones de entrada
-- [ ] Micro-interacciones en botones (scale, glow, ripple)
-- [ ] Cursor personalizado o efectos de hover avanzados
-- [ ] Animaciones de entrada (fade-in, slide-up) en scroll
-- [ ] Navbar con blur/glassmorphism al hacer scroll
-- [ ] Floating elements decorativos (orbes, gradientes animados)
+- [x] Fotos reales de Instagram en lugar de IA
+- [x] Instalar y configurar Framer Motion para animaciones
+- [x] Hero: texto animado con stagger, orbes pulsantes
+- [x] Sección valores: cards con hover 3D (motion.div)
+- [x] Productos: cards con hover elevado (y: -8)
+- [x] Sección lifestyle: FadeIn desde izquierda/derecha
+- [x] Sección gym: FadeIn con delay
+- [x] Micro-interacciones en botones (scale, spring)
+- [x] Animaciones de entrada (FadeIn helper con useInView)
+- [x] Navbar con glassmorphism al hacer scroll
+- [x] Navbar mobile: slide-in + stagger en links
+- [x] Orbes animados en hero (pulse/breathe loop)
 
 ## Comunidad & Instagram (v2)
-- [ ] Explorar API de Instagram MCP para @sanui.uy
-- [ ] Backend: endpoint tRPC para obtener posts de Instagram
-- [ ] Sección "Team SANUI" en Home con feed real de Instagram
-- [ ] Página /comunidad con feed completo y stats
-- [ ] Mostrar likes, comentarios y métricas reales
-- [ ] CTA para seguir en Instagram integrado en feed
+- [x] Explorar API de Instagram MCP para @sanui.uy
+- [x] Backend: endpoint tRPC para obtener posts de Instagram
+- [x] Sección "Team SANUI" en Home con feed real de Instagram
+- [x] Página /comunidad con feed completo y stats
+- [x] Mostrar likes, comentarios y métricas reales
+- [x] CTA para seguir en Instagram integrado en feed
 
 ## Fotos reales de Instagram (v3)
 - [x] Reemplazar imágenes generadas con IA por fotos reales de @sanui.uy

@@ -2,8 +2,33 @@ import { useCart } from "@/contexts/CartContext";
 import { IG } from "@/data/igPhotos";
 import { products } from "@/data/products";
 import { trpc } from "@/lib/trpc";
+import { motion, useInView } from "framer-motion";
 import { ArrowRight, CheckCircle2, ChevronRight, ExternalLink, Heart, Instagram, Leaf, MessageCircle, Play, ShieldCheck, Star, Zap } from "lucide-react";
+import { useRef } from "react";
 import { Link } from "wouter";
+
+// ─── Animation helper ─────────────────────────────────────────────────────────
+function FadeIn({ children, delay = 0, className = "", direction = "up" }: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+  direction?: "up" | "down" | "left" | "right" | "none";
+}) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const dirMap: Record<string, object> = { up: { y: 40 }, down: { y: -40 }, left: { x: 40 }, right: { x: -40 }, none: {} };
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, ...dirMap[direction] }}
+      animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
+      transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 // ─── Hero Section ────────────────────────────────────────────────────────────
 function HeroSection() {
@@ -12,45 +37,76 @@ function HeroSection() {
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-sanui-blue/30 via-sanui-dark to-sanui-dark" />
 
-      {/* Decorative circles */}
-      <div className="absolute top-1/4 right-0 w-96 h-96 rounded-full bg-sanui-blue/10 blur-3xl" />
-      <div className="absolute bottom-0 left-1/4 w-64 h-64 rounded-full bg-sanui-green/10 blur-3xl" />
+      {/* Animated orbs */}
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.1, 0.22, 0.1] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/4 right-0 w-96 h-96 rounded-full bg-sanui-blue/10 blur-3xl"
+      />
+      <motion.div
+        animate={{ scale: [1, 1.2, 1], opacity: [0.08, 0.18, 0.08] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute bottom-0 left-1/4 w-64 h-64 rounded-full bg-sanui-green/10 blur-3xl"
+      />
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10 pt-24 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Text */}
           <div className="order-2 lg:order-1">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-sanui-yellow/20 border border-sanui-yellow/40 text-sanui-yellow px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="inline-flex items-center gap-2 bg-sanui-yellow/20 border border-sanui-yellow/40 text-sanui-yellow px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-6"
+            >
               <Zap size={12} />
               Protein Balls Veganas · Uruguay 🇺🇾
-            </div>
+            </motion.div>
 
-            <h1 className="font-display text-6xl sm:text-7xl md:text-8xl text-white leading-none mb-4">
+            <motion.h1
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display text-6xl sm:text-7xl md:text-8xl text-white leading-none mb-4"
+            >
               RICO.
               <br />
               <span className="text-sanui-yellow">PRÁCTICO.</span>
               <br />
               <span className="text-sanui-blue">SANUI.</span>
-            </h1>
+            </motion.h1>
 
-            <p className="text-gray-300 text-lg md:text-xl leading-relaxed mb-8 max-w-md">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-gray-300 text-lg md:text-xl leading-relaxed mb-8 max-w-md"
+            >
               Protein balls con personalidad. Veganas, sin gluten y sin azúcar.
               El snack que tu rutina necesitaba.
-            </p>
+            </motion.p>
 
             {/* Values pills */}
-            <div className="flex flex-wrap gap-2 mb-10">
-              {["Vegano", "Sin gluten", "Sin azúcar", "12g+ proteína"].map((v) => (
-                <span
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.55 }}
+              className="flex flex-wrap gap-2 mb-10"
+            >
+              {["Vegano", "Sin gluten", "Sin azúcar", "12g+ proteína"].map((v, i) => (
+                <motion.span
                   key={v}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.6 + i * 0.07 }}
                   className="flex items-center gap-1.5 bg-white/10 text-white text-xs font-semibold px-3 py-1.5 rounded-full"
                 >
                   <CheckCircle2 size={12} className="text-sanui-green" />
                   {v}
-                </span>
+                </motion.span>
               ))}
-            </div>
+            </motion.div>
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4">
@@ -131,27 +187,30 @@ function ValuesSection() {
   return (
     <section className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="text-center mb-12">
+        <FadeIn className="text-center mb-12">
           <span className="text-sanui-blue text-sm font-bold uppercase tracking-widest">
             Por qué SANUI
           </span>
           <h2 className="font-display text-5xl md:text-6xl text-sanui-dark mt-2">
             PROTEÍNA CON PERSONALIDAD
           </h2>
-        </div>
+        </FadeIn>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {values.map((v, i) => (
-            <div
-              key={i}
-              className="p-6 rounded-3xl border border-gray-100 hover:border-sanui-blue/30 hover:shadow-lg transition-all group"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-gray-50 group-hover:bg-sanui-blue/10 flex items-center justify-center mb-4 transition-colors">
-                {v.icon}
-              </div>
-              <h4 className="font-bold text-sanui-dark text-lg mb-2">{v.title}</h4>
-              <p className="text-gray-500 text-sm leading-relaxed">{v.description}</p>
-            </div>
+            <FadeIn key={i} delay={i * 0.1} direction="up">
+              <motion.div
+                whileHover={{ y: -6, boxShadow: "0 20px 40px -10px rgba(26,188,254,0.15)" }}
+                transition={{ type: "spring", stiffness: 300 }}
+                className="p-6 rounded-3xl border border-gray-100 hover:border-sanui-blue/30 transition-colors group h-full"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-gray-50 group-hover:bg-sanui-blue/10 flex items-center justify-center mb-4 transition-colors">
+                  {v.icon}
+                </div>
+                <h4 className="font-bold text-sanui-dark text-lg mb-2">{v.title}</h4>
+                <p className="text-gray-500 text-sm leading-relaxed">{v.description}</p>
+              </motion.div>
+            </FadeIn>
           ))}
         </div>
       </div>
@@ -185,10 +244,12 @@ function FeaturedProducts() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featured.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white rounded-3xl overflow-hidden product-card-hover group"
+          {featured.map((product, i) => (
+            <FadeIn key={product.id} delay={i * 0.12} direction="up">
+            <motion.div
+              whileHover={{ y: -8 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow group h-full"
             >
               {/* Image */}
               <Link href={`/producto/${product.id}`}>
@@ -242,7 +303,8 @@ function FeaturedProducts() {
                   </button>
                 </div>
               </div>
-            </div>
+            </motion.div>
+            </FadeIn>
           ))}
         </div>
       </div>
@@ -257,6 +319,7 @@ function LifestyleSection() {
       <div className="container mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Text */}
+          <FadeIn direction="right">
           <div>
             <span className="text-sanui-blue text-sm font-bold uppercase tracking-widest">
               Lifestyle
@@ -280,26 +343,29 @@ function LifestyleSection() {
               Ver productos <ArrowRight size={18} />
             </Link>
           </div>
+          </FadeIn>
 
           {/* Photo grid — fotos reales de @sanui.uy */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-4">
-              <div className="h-48 rounded-3xl overflow-hidden">
-                <img src={IG.lifestyle_beach} alt="SANUI Beach Run" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+          <FadeIn direction="left" delay={0.15}>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-4">
+                <div className="h-48 rounded-3xl overflow-hidden">
+                  <img src={IG.lifestyle_beach} alt="SANUI Beach Run" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div className="h-64 rounded-3xl overflow-hidden">
+                  <img src={IG.product_lifestyle} alt="SANUI energía" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                </div>
               </div>
-              <div className="h-64 rounded-3xl overflow-hidden">
-                <img src={IG.product_lifestyle} alt="SANUI energía" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+              <div className="space-y-4 mt-8">
+                <div className="h-64 rounded-3xl overflow-hidden">
+                  <img src={IG.product_hero} alt="SANUI Protein Balls" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div className="h-48 rounded-3xl overflow-hidden">
+                  <img src={IG.lifestyle_social} alt="SANUI lifestyle" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                </div>
               </div>
             </div>
-            <div className="space-y-4 mt-8">
-              <div className="h-64 rounded-3xl overflow-hidden">
-                <img src={IG.product_hero} alt="SANUI Protein Balls" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-              </div>
-              <div className="h-48 rounded-3xl overflow-hidden">
-                <img src={IG.lifestyle_social} alt="SANUI lifestyle" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-              </div>
-            </div>
-          </div>
+          </FadeIn>
         </div>
       </div>
     </section>
@@ -317,6 +383,7 @@ function GymSection() {
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Fotos reales de @sanui.uy — eventos y gym */}
+          <FadeIn direction="right">
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2 h-56 rounded-3xl overflow-hidden relative">
               <img src={IG.gym_event} alt="SANUI en Punta Carretas" className="w-full h-full object-cover" />
@@ -330,8 +397,10 @@ function GymSection() {
               <img src={IG.lifestyle_event} alt="SANUI Ironman" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
             </div>
           </div>
+          </FadeIn>
 
           {/* Text */}
+          <FadeIn direction="left" delay={0.15}>
           <div>
             <span className="text-sanui-yellow text-sm font-bold uppercase tracking-widest">
               Rendimiento
@@ -369,6 +438,7 @@ function GymSection() {
               Comprar ahora <ArrowRight size={18} />
             </Link>
           </div>
+          </FadeIn>
         </div>
       </div>
     </section>
@@ -409,7 +479,12 @@ function SocialProofSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {reviews.map((r, i) => (
-            <div key={i} className="bg-white p-6 rounded-3xl shadow-sm">
+            <FadeIn key={i} delay={i * 0.1} direction="up">
+            <motion.div
+              whileHover={{ y: -5, boxShadow: "0 20px 40px -10px rgba(0,0,0,0.1)" }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="bg-white p-6 rounded-3xl shadow-sm h-full"
+            >
               <div className="flex gap-1 mb-4">
                 {Array.from({ length: r.rating }).map((_, j) => (
                   <Star key={j} size={16} className="fill-sanui-yellow text-sanui-yellow" />
@@ -417,7 +492,8 @@ function SocialProofSection() {
               </div>
               <p className="text-gray-700 text-sm leading-relaxed mb-4">"{r.text}"</p>
               <p className="font-bold text-sanui-dark text-sm">— {r.name}</p>
-            </div>
+            </motion.div>
+            </FadeIn>
           ))}
         </div>
 

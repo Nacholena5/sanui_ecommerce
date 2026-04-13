@@ -1,4 +1,12 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { int, json, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+
+export type OrderItem = {
+  id: string;
+  name: string;
+  flavor?: string | null;
+  price: number;
+  quantity: number;
+};
 
 /**
  * Core user table backing auth flow.
@@ -22,7 +30,27 @@ export const users = mysqlTable("users", {
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
 });
 
+export const orders = mysqlTable("orders", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").references(() => users.id),
+  items: json("items").$type<OrderItem[]>().notNull(),
+  subtotal: int("subtotal").notNull(),
+  total: int("total").notNull(),
+  status: mysqlEnum("status", ["pending", "confirmed", "paid", "cancelled"]).default("pending").notNull(),
+  firstName: varchar("firstName", { length: 100 }).notNull(),
+  lastName: varchar("lastName", { length: 100 }).notNull(),
+  email: varchar("email", { length: 320 }).notNull(),
+  phone: varchar("phone", { length: 64 }).notNull(),
+  address: text("address").notNull(),
+  city: varchar("city", { length: 128 }).notNull(),
+  department: varchar("department", { length: 128 }).notNull(),
+  postalCode: varchar("postalCode", { length: 32 }),
+  paymentMethod: mysqlEnum("paymentMethod", ["transfer", "mercadopago", "cash"]).default("transfer").notNull(),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
-
-// TODO: Add your tables here
+export type Order = typeof orders.$inferSelect;
+export type InsertOrder = typeof orders.$inferInsert;

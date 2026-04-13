@@ -19,7 +19,7 @@ export default function About() {
           </h1>
           <p className="text-gray-300 text-xl max-w-2xl leading-relaxed">
             Una marca uruguaya que nació de una idea simple: comer rico, comer bien y no
-            complicarse. Protein balls con personalidad. Snacks hechos con intención.
+            complicarse. Bolitas proteicas con 20g de proteína. Snacks hechos con intención.
           </p>
         </div>
       </section>
@@ -55,12 +55,12 @@ export default function About() {
               <div className="space-y-4 text-gray-600 text-base leading-relaxed">
                 <p>
                   SANUI nació en Montevideo con una misión clara: crear snacks proteicos que
-                  realmente valgan la pena. No suplementos genéricos, no barras sin sabor. Protein
-                  balls con personalidad, hechas con ingredientes reales y sin comprometer el gusto.
+                  realmente valgan la pena. No suplementos genéricos, no barras sin sabor. Bolitas
+                  proteicas con 20g de proteína, hechas con ingredientes reales y sin comprometer el gusto.
                 </p>
                 <p>
-                  Somos una marca joven, activa y visual. Nos importa lo que ponemos en cada pote
-                  tanto como la experiencia de abrirlo. Cada sabor es pensado, probado y perfeccionado
+                  Somos una marca joven, activa y visual. Nos importa lo que ponemos en cada tarro
+                  tanto como la experiencia de abrirlo. Cada bolita es pensada, probada y perfeccionada
                   antes de llegar a tus manos.
                 </p>
                 <p>
@@ -105,9 +105,9 @@ export default function About() {
               },
               {
                 icon: <Zap size={32} className="text-sanui-yellow" />,
-                title: "Sin Azúcar Agregado",
+                title: "20g de Proteína",
                 description:
-                  "El dulce viene de los dátiles, no del azúcar refinado. Natural, real y sin culpa. Porque el cuerpo merece lo mejor.",
+                  "Cada porción tiene 20g de proteína de whey vegano de Cibeles. Energía real para tu rutina diaria.",
                 color: "from-sanui-yellow/20 to-sanui-yellow/5",
                 border: "border-sanui-yellow/30",
               },
@@ -123,6 +123,19 @@ export default function About() {
                 <p className="text-gray-600 text-sm leading-relaxed">{v.description}</p>
               </div>
             ))}
+          </div>
+
+          {/* Nuevo valor: Sin azúcar */}
+          <div className="mt-8">
+            <div className="p-8 rounded-3xl bg-gradient-to-br from-sanui-yellow/20 to-sanui-yellow/5 border border-sanui-yellow/30">
+              <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center mb-6 shadow-sm">
+                <Leaf size={32} className="text-sanui-yellow" />
+              </div>
+              <h3 className="font-display text-3xl text-sanui-dark mb-3">Sin Azúcar Agregado</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                El dulce viene de los dátiles, no del azúcar refinado. Natural, real y sin culpa. Porque el cuerpo merece lo mejor.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -231,7 +244,7 @@ export default function About() {
             {[
               { value: "100%", label: "Vegano" },
               { value: "0g", label: "Azúcar agregado" },
-              { value: "12g+", label: "Proteína" },
+              { value: "20g", label: "Proteína" },
               { value: "🇺🇾", label: "Hecho en Uruguay" },
             ].map((stat) => (
               <div key={stat.label}>
@@ -252,7 +265,7 @@ export default function About() {
             LISTO PARA PROBAR SANUI?
           </h2>
           <p className="text-gray-500 text-lg mb-8">
-            Protein balls veganas, sin gluten y sin azúcar. Hechas con intención.
+            Bolitas proteicas veganas, sin gluten y sin azúcar. Hechas con intención.
           </p>
           <Link
             href="/tienda"

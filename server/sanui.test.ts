@@ -125,7 +125,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 }
 
 const emptyCart: CartState = { items: [], isOpen: false };
-const mockProduct = { id: "pb-chocolate", price: 390, name: "Protein Balls Chocolate" };
+const mockProduct = { id: "pb-chocolate", price: 350, name: "Bolitas Proteicas SANUI Chocolate" };
 
 describe("Cart Reducer", () => {
   it("adds a new item to empty cart", () => {
@@ -236,11 +236,11 @@ describe("Cart Reducer", () => {
 describe("Cart Totals", () => {
   it("calculates total price correctly", () => {
     const items = [
-      { product: { price: 390 }, quantity: 2 },
-      { product: { price: 420 }, quantity: 1 },
+      { product: { price: 350 }, quantity: 2 },
+      { product: { price: 600 }, quantity: 1 },
     ];
     const total = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-    expect(total).toBe(1200);
+    expect(total).toBe(1300);
   });
 
   it("calculates total items correctly", () => {
@@ -333,21 +333,15 @@ describe("Product Data Integrity", () => {
   // Inline product data matching products.ts
   const productIds = [
     "pb-chocolate",
-    "pb-mani",
-    "pb-coco-limon",
-    "pb-mix",
-    "pb-trek",
-    "pb-caramelo",
+    "pb-vainilla",
+    "pb-pack-2x",
   ];
-  const productPrices = [390, 390, 390, 1050, 420, 390];
-  const productProteins = [12, 13, 11, 12, 15, 11];
+  const productPrices = [350, 350, 600];
+  const productProteins = [20, 20, 20];
   const productTags = [
-    ["vegano", "sin-gluten", "sin-azucar"],
-    ["vegano", "sin-gluten", "sin-azucar"],
-    ["vegano", "sin-gluten", "sin-azucar"],
-    ["vegano", "sin-gluten", "sin-azucar", "pack"],
-    ["vegano", "sin-gluten", "sin-azucar", "alto-proteina"],
-    ["vegano", "sin-gluten", "sin-azucar"],
+    ["vegano", "sin-gluten", "sin-azucar", "20g-proteina"],
+    ["vegano", "sin-gluten", "sin-azucar", "20g-proteina"],
+    ["vegano", "sin-gluten", "sin-azucar", "pack", "ahorro"],
   ];
 
   it("all product IDs are unique", () => {

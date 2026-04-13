@@ -1,3 +1,4 @@
+import { trpc } from "@/lib/trpc";
 import { useCart } from "@/contexts/CartContext";
 import { CheckCircle2, ChevronRight, Package, ShieldCheck, Truck } from "lucide-react";
 import { useState } from "react";
@@ -36,12 +37,85 @@ const departments = [
   "Artigas", "Salto", "Paysandú", "Río Negro",
 ];
 
+type OrderPayloadItem = {
+  id: string;
+  name: string;
+  flavor?: string | null;
+  price: number;
+  quantity: number;
+};
+
 export default function Checkout() {
   const { state, totalPrice, totalItems, clearCart } = useCart();
   const [form, setForm] = useState<OrderForm>(initialForm);
   const [errors, setErrors] = useState<Partial<OrderForm>>({});
   const [submitted, setSubmitted] = useState(false);
-  const [orderNumber] = useState(() => `SANUI-${Date.now().toString().slice(-6)}`);
+  const [orderNumber, setOrderNumber] = useState(() => `SANUI-${Date.now().toString().slice(-6)}`);
+  const [orderDraft, setOrderDraft] = useState<{
+    items: OrderPayloadItem[];
+    subtotal: number;
+    shippingCost: number;
+    total: number;
+    paymentMethod: string;
+    customer: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      phone: string;
+      address: string;
+      city: string;
+      department: string;
+      postalCode: string;
+    };
+  } | null>(null);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+  const createOrderMutation = trpc.order.create.useMutation({
+    onSuccess: (data) => {
+      const items = state.items.map((item) => ({
+        id: item.product.id,
+        name: item.product.name,
+        flavor: item.flavor,
+        price: item.product.price,
+        quantity: item.quantity,
+      }));
+
+      setOrderNumber(`SANUI-${String(data.orderId).padStart(6, "0")}`);
+      setOrderDraft({
+        items,
+        subtotal: data.subtotal,
+        shippingCost: data.shippingCost,
+        total: data.total,
+        paymentMethod: form.paymentMethod,
+        customer: {
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.email,
+          phone: form.phone,
+          address: form.address,
+          city: form.city,
+          department: form.department,
+          postalCode: form.postalCode,
+        },
+      });
+      setCheckoutError(null);
+
+      if (data.paymentLink) {
+        clearCart();
+        window.location.assign(data.paymentLink);
+        return;
+      }
+
+      clearCart();
+      setSubmitted(true);
+    },
+    onError: (error) => {
+      setCheckoutError(
+        error.message ||
+          "No se pudo procesar el pedido. Verificá tu conexión y volvé a intentarlo."
+      );
+    },
+  });
 
   const shippingCost = form.department === "Montevideo" && totalPrice >= 1000 ? 0 : 
                        form.department === "Montevideo" ? 150 : 350;
@@ -60,11 +134,35 @@ export default function Checkout() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const buildOrderPayload = () => ({
+    items: state.items.map((item) => ({
+      id: item.product.id,
+      name: item.product.name,
+      flavor: item.flavor,
+      price: item.product.price,
+      quantity: item.quantity,
+    })),
+    firstName: form.firstName,
+    lastName: form.lastName,
+    email: form.email,
+    phone: form.phone,
+    address: form.address,
+    city: form.city,
+    department: form.department,
+    postalCode: form.postalCode || undefined,
+    notes: form.notes || undefined,
+    paymentMethod: form.paymentMethod,
+  });
+
+  const submitOrder = () => {
+    setCheckoutError(null);
+    createOrderMutation.mutate(buildOrderPayload());
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    setSubmitted(true);
-    clearCart();
+    submitOrder();
   };
 
   const handleChange = (
@@ -75,6 +173,35 @@ export default function Checkout() {
     if (errors[name as keyof OrderForm]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
+  };
+
+  const buildWhatsAppLink = (draft: NonNullable<typeof orderDraft>) => {
+    const customer = draft.customer;
+    const itemLines = draft.items.map((item) => {
+      const flavorText = item.flavor ? ` (${item.flavor})` : "";
+      return `- ${item.name}${flavorText} x${item.quantity} = $${(item.price * item.quantity).toLocaleString("es-UY")}`;
+    });
+
+    const text = [
+      "*Nuevo pedido SANUI*",
+      `*Pedido:* ${orderNumber}`,
+      "",
+      "*Cliente:*",
+      `${customer.firstName} ${customer.lastName}`,
+      `Email: ${customer.email}`,
+      `Teléfono: ${customer.phone}`,
+      `Dirección: ${customer.address}, ${customer.city}, ${customer.department}${customer.postalCode ? `, CP ${customer.postalCode}` : ""}`,
+      "",
+      "*Productos:*",
+      ...itemLines,
+      "",
+      `Subtotal: $${draft.subtotal.toLocaleString("es-UY")}`,
+      `Envío: ${draft.shippingCost === 0 ? "Gratis" : `$${draft.shippingCost.toLocaleString("es-UY")}`}`,
+      `Total: $${draft.total.toLocaleString("es-UY")}`,
+      `Pago: ${draft.paymentMethod === "transfer" ? "Transferencia" : draft.paymentMethod === "mercadopago" ? "Mercado Pago" : "Efectivo"}`,
+    ].join("\n");
+
+    return `https://wa.me/59892435222?text=${encodeURIComponent(text)}`;
   };
 
   // Empty cart
@@ -136,11 +263,23 @@ export default function Checkout() {
                 <span className="text-gray-500">Pago</span>
                 <span className="font-semibold capitalize">{form.paymentMethod === "transfer" ? "Transferencia" : form.paymentMethod}</span>
               </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-500">Envío</span>
+                <span className="font-semibold">
+                  {orderDraft
+                    ? orderDraft.shippingCost === 0
+                      ? "Gratis 🎉"
+                      : `$${orderDraft.shippingCost.toLocaleString("es-UY")}`
+                    : shippingCost === 0
+                    ? "Gratis 🎉"
+                    : `$${shippingCost}`}
+                </span>
+              </div>
             </div>
             <div className="border-t border-gray-100 pt-4 flex justify-between">
               <span className="font-bold text-sanui-dark">Total</span>
               <span className="font-display text-2xl text-sanui-blue">
-                ${finalTotal.toLocaleString("es-UY")}
+                ${orderDraft?.total.toLocaleString("es-UY") ?? finalTotal.toLocaleString("es-UY")}
               </span>
             </div>
           </div>
@@ -150,12 +289,25 @@ export default function Checkout() {
             coordinar el pago y la entrega.
           </p>
 
+          {orderDraft && (
+            <div className="mb-6">
+              <a
+                href={buildWhatsAppLink(orderDraft)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-sanui-green text-white px-6 py-4 rounded-2xl font-bold text-sm uppercase tracking-wider hover:bg-sanui-green-dark transition-colors"
+              >
+                Enviar pedido por WhatsApp
+              </a>
+            </div>
+          )}
+
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              href="/"
-              className="inline-flex items-center justify-center gap-2 bg-sanui-blue text-white px-8 py-4 rounded-2xl font-bold text-sm uppercase tracking-wider hover:bg-sanui-blue-dark transition-colors"
+              href={`/gracias?orderId=${encodeURIComponent(orderNumber)}`}
+              className="inline-flex items-center justify-center gap-2 bg-sanui-green text-white px-8 py-4 rounded-2xl font-bold text-sm uppercase tracking-wider hover:bg-sanui-green-dark transition-colors"
             >
-              Volver al inicio
+              Ver página de agradecimiento
             </Link>
             <Link
               href="/tienda"
@@ -187,6 +339,25 @@ export default function Checkout() {
 
       <div className="container mx-auto px-4 sm:px-6 py-10">
         <form onSubmit={handleSubmit}>
+          {(checkoutError || createOrderMutation.error) && (
+            <div className="mb-6 rounded-3xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+              <p className="mb-3">
+                {checkoutError || createOrderMutation.error?.message ||
+                  "Ocurrió un error al crear el pedido. Intentá de nuevo."}
+              </p>
+              <p className="text-xs text-red-600 mb-3">
+                Tu carrito no se borró. Podés corregir datos y volver a intentarlo.
+              </p>
+              <button
+                type="button"
+                onClick={submitOrder}
+                disabled={createOrderMutation.isLoading}
+                className="inline-flex items-center justify-center rounded-full bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700 transition-colors disabled:opacity-50"
+              >
+                {createOrderMutation.isLoading ? "Reintentando..." : "Reintentar pedido"}
+              </button>
+            </div>
+          )}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Form */}
             <div className="lg:col-span-2 space-y-6">
@@ -408,9 +579,14 @@ export default function Checkout() {
 
                 <button
                   type="submit"
-                  className="w-full bg-sanui-blue text-white py-4 px-6 rounded-2xl font-bold text-sm uppercase tracking-wider hover:bg-sanui-blue-dark transition-all hover:scale-105 shadow-lg shadow-sanui-blue/30"
+                  disabled={createOrderMutation.isLoading}
+                  className={`w-full py-4 px-6 rounded-2xl font-bold text-sm uppercase tracking-wider shadow-lg shadow-sanui-blue/30 transition-all ${
+                    createOrderMutation.isLoading
+                      ? "bg-gray-300 text-gray-700 cursor-not-allowed"
+                      : "bg-sanui-blue text-white hover:bg-sanui-blue-dark hover:scale-105"
+                  }`}
                 >
-                  Confirmar pedido
+                  {createOrderMutation.isLoading ? "Enviando pedido..." : "Confirmar pedido"}
                 </button>
               </div>
             </div>

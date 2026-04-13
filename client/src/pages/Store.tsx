@@ -32,7 +32,7 @@ export default function Store() {
             Tienda SANUI
           </span>
           <h1 className="font-display text-6xl md:text-7xl text-white mt-2">
-            PROTEIN BALLS
+            BOLITAS PROTEICAS
           </h1>
           <p className="text-gray-400 text-lg mt-2">
             Veganas · Sin gluten · Sin azúcar · Hechas con intención

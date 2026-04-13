@@ -12,7 +12,7 @@ export default function Footer() {
             <div className="mb-4">
               <span className="font-display text-4xl tracking-widest text-white">SANUI</span>
               <p className="text-sanui-yellow text-xs font-bold uppercase tracking-[0.25em] mt-0.5">
-                Protein Balls
+                Bolitas Proteicas
               </p>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
@@ -63,11 +63,9 @@ export default function Footer() {
             </h4>
             <ul className="flex flex-col gap-3">
               {[
-                { href: "/producto/pb-chocolate", label: "Protein Balls Chocolate" },
-                { href: "/producto/pb-mani", label: "Protein Balls Maní" },
-                { href: "/producto/pb-coco-limon", label: "Protein Balls Coco & Limón" },
-                { href: "/producto/pb-trek", label: "SANUI TREK" },
-                { href: "/producto/pb-mix", label: "Mix SANUI" },
+                { href: "/producto/pb-chocolate", label: "Bolitas Proteicas Chocolate" },
+                { href: "/producto/pb-vainilla", label: "Bolitas Proteicas Vainilla" },
+                { href: "/producto/pb-pack-2x", label: "Pack 2x Bolitas Proteicas" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link
@@ -105,7 +103,7 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <MessageCircle size={16} className="text-sanui-green flex-shrink-0" />
                 <a
-                  href="https://wa.me/59899000000"
+                  href="https://wa.me/59892435222"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-sanui-yellow text-sm transition-colors"
@@ -127,7 +125,7 @@ export default function Footer() {
                 <Instagram size={18} />
               </a>
               <a
-                href="https://wa.me/59899000000"
+                href="https://wa.me/59892435222"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-sanui-green transition-colors"

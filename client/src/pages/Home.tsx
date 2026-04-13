@@ -83,8 +83,8 @@ function HeroSection() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="text-gray-300 text-lg md:text-xl leading-relaxed mb-8 max-w-md"
             >
-              Protein balls con personalidad. Veganas, sin gluten y sin azúcar.
-              El snack que tu rutina necesitaba.
+              Bolitas proteicas con 20g de proteína. Veganas, sin gluten y sin azúcar.
+              El snack saludable que tu rutina necesitaba.
             </motion.p>
 
             {/* Values pills */}
@@ -94,7 +94,7 @@ function HeroSection() {
               transition={{ delay: 0.55 }}
               className="flex flex-wrap gap-2 mb-10"
             >
-              {["Vegano", "Sin gluten", "Sin azúcar", "12g+ proteína"].map((v, i) => (
+              {["Vegano", "Sin gluten", "Sin azúcar", "20g proteína"].map((v, i) => (
                 <motion.span
                   key={v}
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -133,14 +133,14 @@ function HeroSection() {
               <div className="w-72 h-72 md:w-96 md:h-96 rounded-3xl overflow-hidden animate-float shadow-2xl shadow-sanui-blue/20">
                 <img
                   src={IG.product_hero}
-                  alt="SANUI Protein Balls"
+                  alt="SANUI Bolitas Proteicas"
                   className="w-full h-full object-cover"
                 />
               </div>
 
               {/* Floating badges */}
               <div className="absolute -top-4 -right-4 bg-sanui-yellow text-sanui-dark px-4 py-2 rounded-2xl font-black text-sm shadow-lg rotate-3">
-                12g proteína
+                20g proteína
               </div>
               <div className="absolute -bottom-4 -left-4 bg-sanui-green text-white px-4 py-2 rounded-2xl font-black text-sm shadow-lg -rotate-2">
                 Sin azúcar 🌿
@@ -179,8 +179,8 @@ function ValuesSection() {
     },
     {
       icon: <Zap size={28} className="text-sanui-blue" />,
-      title: "12g+ de Proteína",
-      description: "Proteína real para una rutina real. Gym, trabajo o donde sea.",
+      title: "20g de Proteína",
+      description: "Proteína real de whey vegano de Cibeles. Para una rutina real. Gym, trabajo o donde sea.",
     },
   ];
 
@@ -358,7 +358,7 @@ function LifestyleSection() {
               </div>
               <div className="space-y-4 mt-8">
                 <div className="h-64 rounded-3xl overflow-hidden">
-                  <img src={IG.product_hero} alt="SANUI Protein Balls" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                  <img src={IG.product_hero} alt="SANUI Bolitas Proteicas" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="h-48 rounded-3xl overflow-hidden">
                   <img src={IG.lifestyle_social} alt="SANUI lifestyle" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
@@ -420,7 +420,7 @@ function GymSection() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4 mb-8">
               {[
-                { value: "12g+", label: "Proteína" },
+                { value: "20g", label: "Proteína" },
                 { value: "0", label: "Azúcar agregado" },
                 { value: "100%", label: "Vegano" },
               ].map((stat) => (
@@ -450,7 +450,7 @@ function SocialProofSection() {
   const reviews = [
     {
       name: "Valentina R.",
-      text: "Las mejores protein balls que probé. El sabor chocolate es una locura. Ya pedí 3 veces.",
+      text: "Las mejores bolitas proteicas que probé. El chocolate es una locura con 20g de proteína. Ya pedí varias veces.",
       rating: 5,
     },
     {
@@ -460,7 +460,7 @@ function SocialProofSection() {
     },
     {
       name: "Lucía F.",
-      text: "Por fin un snack saludable que no sabe a cartón. El de coco y limón es mi favorito.",
+      text: "Por fin un snack saludable que no sabe a cartón. La vainilla es mi favorita, tan natural.",
       rating: 5,
     },
   ];

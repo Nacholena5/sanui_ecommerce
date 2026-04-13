@@ -64,7 +64,7 @@ export default function Navbar() {
                     isTransparent ? "text-sanui-yellow" : "text-sanui-blue"
                   }`}
                 >
-                  Protein Balls
+                  Bolitas Proteicas
                 </span>
               </motion.div>
             </Link>

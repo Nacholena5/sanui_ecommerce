@@ -7,4 +7,9 @@ export const ENV = {
   isProduction: process.env.NODE_ENV === "production",
   forgeApiUrl: process.env.BUILT_IN_FORGE_API_URL ?? "",
   forgeApiKey: process.env.BUILT_IN_FORGE_API_KEY ?? "",
+  mercadoPagoAccessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN ?? "",
+  mercadoPagoBaseUrl: process.env.MERCADO_PAGO_BASE_URL ?? "https://api.mercadopago.com",
+  mercadoPagoWebhookKey: process.env.MERCADO_PAGO_WEBHOOK_KEY ?? "",
+  frontendUrl: process.env.FRONTEND_URL ?? "http://localhost:3000",
+  serverUrl: process.env.SERVER_URL ?? process.env.FRONTEND_URL ?? "http://localhost:3000",
 };

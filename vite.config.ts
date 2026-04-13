@@ -167,6 +167,27 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tooltip'],
+          router: ['wouter'],
+          animations: ['framer-motion'],
+          utils: ['@tanstack/react-query', '@trpc/client', '@trpc/react-query'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+    sourcemap: false,
+    reportCompressedSize: false,
   },
   server: {
     host: true,

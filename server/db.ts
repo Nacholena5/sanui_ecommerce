@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertOrder, InsertUser, orders, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -75,6 +75,111 @@ export async function upsertUser(user: InsertUser): Promise<void> {
     console.error("[Database] Failed to upsert user:", error);
     throw error;
   }
+}
+
+export async function createOrder(order: InsertOrder): Promise<number> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const result = await db.insert(orders).values(order);
+  return Number((result as any).insertId ?? 0);
+}
+
+export async function getOrders() {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get orders: database not available");
+    return [] as typeof orders.$inferSelect[];
+  }
+
+  return db.select().from(orders).orderBy(desc(orders.createdAt));
+}
+
+export async function getOrderById(orderId: number) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get order by id: database not available");
+    return null;
+  }
+
+  const result = await db.select().from(orders).where(eq(orders.id, orderId)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getOrdersByUser(userId: number) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get orders by user: database not available");
+    return [] as typeof orders.$inferSelect[];
+  }
+
+  return db
+    .select()
+    .from(orders)
+    .where(eq(orders.userId, userId))
+    .orderBy(desc(orders.createdAt));
+}
+
+export async function getRecentOrderByEmail(email: string, minutesBack: number = 5) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get orders by email: database not available");
+    return null;
+  }
+
+  const result = await db
+    .select()
+    .from(orders)
+    .where(eq(orders.email, email))
+    .orderBy(desc(orders.createdAt))
+    .limit(1);
+
+  if (result.length === 0) {
+    return null;
+  }
+
+  const order = result[0];
+  if (order.status === "paid") {
+    return order;
+  }
+
+  const fiveMinutesAgo = new Date(Date.now() - minutesBack * 60 * 1000);
+  if (
+    order.status === "pending" &&
+    order.paymentMethod === "mercadopago" &&
+    order.createdAt > fiveMinutesAgo
+  ) {
+    return order;
+  }
+
+  return null;
+}
+
+export async function updateOrderStatus(orderId: number, status: "pending" | "confirmed" | "paid" | "cancelled") {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const currentOrder = await getOrderById(orderId);
+  if (!currentOrder) {
+    throw new Error(`Order ${orderId} not found`);
+  }
+
+  const currentStatus = currentOrder.status;
+
+  if (currentStatus === "paid" && status !== "paid") {
+    throw new Error(`Cannot update order ${orderId}: already marked as paid. Current status: ${currentStatus}, attempted: ${status}`);
+  }
+
+  if (currentStatus === "paid" && status === "paid") {
+    console.warn(`[Database] Order ${orderId} is already marked as paid, skipping duplicate update.`);
+    return;
+  }
+
+  await db.update(orders).set({ status }).where(eq(orders.id, orderId));
 }
 
 export async function getUserByOpenId(openId: string) {

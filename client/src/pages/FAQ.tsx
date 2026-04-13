@@ -12,9 +12,9 @@ const faqData: FAQItem[] = [
   // Ingredientes
   {
     category: "Ingredientes",
-    question: "¿Qué ingredientes tienen las Protein Balls SANUI?",
+    question: "¿Qué ingredientes tienen las Bolitas Proteicas SANUI?",
     answer:
-      "Nuestras Protein Balls están hechas con ingredientes 100% naturales: dátiles, proteína de guisante, mantequilla de frutos secos (maní, almendras o anacardo según el sabor), semillas, cacao en polvo (en el sabor chocolate), y extracto de vainilla natural. Sin aditivos, sin conservantes, sin colorantes artificiales.",
+      "Nuestras Bolitas Proteicas SANUI están hechas con ingredientes 100% naturales y transparentes: pasta de dátiles, pasta de maní, harina de avena, sucralosa, cacao, vainilla, coco rallado, aceite de coco y whey vegano de Cibeles. Sin aditivos artificiales, sin conservantes, sin colorantes.",
   },
   {
     category: "Ingredientes",
@@ -32,13 +32,13 @@ const faqData: FAQItem[] = [
     category: "Ingredientes",
     question: "¿Son aptas para celíacos?",
     answer:
-      "Sí. Nuestras Protein Balls están formuladas sin gluten. Usamos avena certificada sin gluten en los sabores que la incluyen. Sin embargo, si tenés celiaquía severa, te recomendamos leer la etiqueta de cada producto para verificar posibles trazas.",
+      "Sí. Nuestras Bolitas Proteicas SANUI están formuladas sin gluten. Usamos harina de avena certificada sin gluten. Sin embargo, si tenés celiaquía severa, te recomendamos leer la etiqueta de cada producto para verificar posibles trazas.",
   },
   {
     category: "Ingredientes",
     question: "¿Cuánta proteína tiene cada porción?",
     answer:
-      "Depende del sabor, pero nuestras Protein Balls tienen entre 11g y 15g de proteína por porción (120g). El SANUI TREK es el más alto con 15g. Toda la proteína es de origen vegetal, principalmente proteína de guisante.",
+      "Cada porción de nuestras Bolitas Proteicas SANUI tiene 20g de proteína de whey vegano de Cibeles. Toda la proteína es de origen vegetal, natural y de alta calidad.",
   },
   // Pedidos
   {
@@ -93,7 +93,7 @@ const faqData: FAQItem[] = [
   // Nutrición
   {
     category: "Nutrición",
-    question: "¿Las Protein Balls sirven para bajar de peso?",
+    question: "¿Las Bolitas Proteicas SANUI sirven para bajar de peso?",
     answer:
       "SANUI no es un producto para dieta ni para bajar de peso. Es un snack proteico real, pensado para complementar una alimentación equilibrada. La proteína ayuda a la saciedad, pero no somos un sustituto de comida ni un producto de adelgazamiento.",
   },
@@ -113,7 +113,7 @@ const faqData: FAQItem[] = [
     category: "Nutrición",
     question: "¿Cuánto tiempo duran una vez abiertas?",
     answer:
-      "Una vez abierto el pote, te recomendamos consumir las Protein Balls en un plazo de 7-10 días, guardándolas en un lugar fresco y seco o en la heladera. Sin conservantes, la frescura depende de cómo las guardes.",
+      "Una vez abierto el tarro, te recomendamos consumir las Bolitas Proteicas en un plazo de 7-10 días, guardándolas en un lugar fresco y seco o en la heladera. Sin conservantes artificiales, la frescura depende de cómo las guardes.",
   },
 ];
 

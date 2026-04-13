@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Block access to admin areas
+Disallow: /admin/
+
+# Block access to API endpoints
+Disallow: /api/
+Disallow: /trpc/
+
+# Allow access to static assets
+Allow: /images/
+Allow: /assets/
+
+# Sitemap
+Sitemap: https://sanui.uy/sitemap.xml

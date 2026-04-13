@@ -47,7 +47,7 @@ export default function CartDrawer() {
               </div>
               <div>
                 <p className="font-display text-2xl text-sanui-dark mb-1">Carrito vacío</p>
-                <p className="text-sm text-gray-500">Agregá tus Protein Balls favoritas</p>
+                <p className="text-sm text-gray-500">Agregá tus Bolitas Proteicas favoritas</p>
               </div>
               <button
                 onClick={closeCart}

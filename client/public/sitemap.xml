@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://sanui.uy/</loc>
+    <lastmod>2024-12-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Store -->
+  <url>
+    <loc>https://sanui.uy/tienda</loc>
+    <lastmod>2024-12-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Products -->
+  <url>
+    <loc>https://sanui.uy/producto/pb-chocolate</loc>
+    <lastmod>2024-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://sanui.uy/producto/pb-vainilla</loc>
+    <lastmod>2024-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://sanui.uy/producto/pb-pack-2x</loc>
+    <lastmod>2024-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- About -->
+  <url>
+    <loc>https://sanui.uy/sobre</loc>
+    <lastmod>2024-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- FAQ -->
+  <url>
+    <loc>https://sanui.uy/faq</loc>
+    <lastmod>2024-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Community -->
+  <url>
+    <loc>https://sanui.uy/comunidad</loc>
+    <lastmod>2024-12-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>

@@ -4,19 +4,38 @@ import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { CartProvider } from "@/contexts/CartContext";
-import About from "@/pages/About";
-import Cart from "@/pages/Cart";
-import Checkout from "@/pages/Checkout";
-import Community from "@/pages/Community";
-import FAQ from "@/pages/FAQ";
-import Home from "@/pages/Home";
-import ProductPage from "@/pages/ProductPage";
-import Store from "@/pages/Store";
-import NotFound from "@/pages/NotFound";
 import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import Analytics from "./components/Analytics";
+
+// Lazy load pages for better performance
+const Home = lazy(() => import("@/pages/Home"));
+const Store = lazy(() => import("@/pages/Store"));
+const ProductPage = lazy(() => import("@/pages/ProductPage"));
+const About = lazy(() => import("@/pages/About"));
+const FAQ = lazy(() => import("@/pages/FAQ"));
+const Cart = lazy(() => import("@/pages/Cart"));
+const Checkout = lazy(() => import("@/pages/Checkout"));
+const MyOrders = lazy(() => import("@/pages/MyOrders"));
+const AdminOrders = lazy(() => import("@/pages/AdminOrders"));
+const OrderDetail = lazy(() => import("@/pages/OrderDetail"));
+const ThankYou = lazy(() => import("@/pages/ThankYou"));
+const Community = lazy(() => import("@/pages/Community"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
+
+// Loading component
+function PageLoader() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-sanui-off-white">
+      <div className="text-center">
+        <div className="w-16 h-16 border-4 border-sanui-blue border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-sanui-dark font-semibold">Cargando SANUI...</p>
+      </div>
+    </div>
+  );
+}
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -29,18 +48,24 @@ function ScrollToTop() {
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/tienda" component={Store} />
-      <Route path="/producto/:id" component={ProductPage} />
-      <Route path="/sobre" component={About} />
-      <Route path="/faq" component={FAQ} />
-      <Route path="/carrito" component={Cart} />
-      <Route path="/checkout" component={Checkout} />
-      <Route path="/comunidad" component={Community} />
-      <Route path="/404" component={NotFound} />
-      <Route component={NotFound} />
-    </Switch>
+    <Suspense fallback={<PageLoader />}>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/tienda" component={Store} />
+        <Route path="/producto/:id" component={ProductPage} />
+        <Route path="/sobre" component={About} />
+        <Route path="/faq" component={FAQ} />
+        <Route path="/carrito" component={Cart} />
+        <Route path="/checkout" component={Checkout} />
+        <Route path="/mis-pedidos" component={MyOrders} />
+        <Route path="/admin/pedidos" component={AdminOrders} />
+        <Route path="/admin/pedido/:orderId" component={OrderDetail} />
+        <Route path="/gracias" component={ThankYou} />
+        <Route path="/comunidad" component={Community} />
+        <Route path="/404" component={NotFound} />
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
 }
 
@@ -63,6 +88,7 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
+          <Analytics />
           <Toaster />
           <AppLayout />
         </TooltipProvider>

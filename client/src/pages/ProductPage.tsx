@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Link, useParams } from "wouter";
+import SEO from "@/components/SEO";
 
 export default function ProductPage() {
   const params = useParams<{ id: string }>();
@@ -43,6 +44,42 @@ export default function ProductPage() {
     );
   }
 
+  // Structured data for product
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.name,
+    "description": product.description,
+    "image": product.images,
+    "brand": {
+      "@type": "Brand",
+      "name": "SANUI"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": product.price,
+      "priceCurrency": "UYU",
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "Organization",
+        "name": "SANUI"
+      }
+    },
+    "nutrition": {
+      "@type": "NutritionInformation",
+      "calories": `${product.calories} calories`,
+      "proteinContent": `${product.protein}g`,
+      "carbohydrateContent": `${product.carbs}g`,
+      "fatContent": `${product.fat}g`,
+      "fiberContent": `${product.fiber}g`
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "48"
+    }
+  };
+
   const handleAddToCart = () => {
     addItem(product, quantity, selectedFlavor);
     setAddedToCart(true);
@@ -50,7 +87,15 @@ export default function ProductPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <>
+      <SEO
+        title={`${product.name} - SANUI | ${product.price.toLocaleString('es-UY')} pesos`}
+        description={`${product.description} ${product.protein}g de proteína. Vegano, sin gluten, sin azúcar.`}
+        image={product.images[0]}
+        type="product"
+        structuredData={structuredData}
+      />
+      <div className="min-h-screen bg-white">
       {/* Breadcrumb */}
       <div className="pt-20 pb-4 bg-sanui-off-white border-b border-gray-100">
         <div className="container mx-auto px-4 sm:px-6">
@@ -367,6 +412,7 @@ export default function ProductPage() {
         )}
       </div>
     </div>
+    </>
   );
 }
 

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import type { Product } from "@/data/products";
+import { trackAddToCart, trackPurchase } from "@/components/Analytics";
 
 export interface CartItem {
   product: Product;
@@ -37,6 +38,8 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         };
         return { ...state, items: updatedItems, isOpen: true };
       }
+      // Track add to cart event
+      trackAddToCart(action.product);
       return {
         ...state,
         items: [

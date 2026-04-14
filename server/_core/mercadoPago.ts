@@ -5,6 +5,9 @@ import { updateOrderStatus } from "../db";
 const MP_BASE_URL = ENV.mercadoPagoBaseUrl;
 const WEBHOOK_KEY = ENV.mercadoPagoWebhookKey;
 
+// In-memory set to track processed webhook IDs for idempotency
+const processedWebhooks = new Set<string>();
+
 export type MercadoPagoPreferenceItem = {
   title: string;
   quantity: number;
@@ -141,6 +144,12 @@ export async function verifyMercadoPagoWebhookSignature(
 }
 
 export async function handleMercadoPagoWebhook(body: any) {
+  const webhookId = body?.id;
+  if (webhookId && processedWebhooks.has(webhookId)) {
+    console.info("[MercadoPago] Webhook already processed, skipping", { webhookId });
+    return;
+  }
+
   const eventType = body?.type ?? body?.topic ?? "unknown";
   const paymentId = body?.data?.id || body?.id || body?.payment_id;
   console.info("[MercadoPago] Handling webhook event", {
@@ -217,5 +226,10 @@ Cliente: ${payment.payer?.email ?? "desconocido"}`,
       paymentId: payment.id,
       paymentStatus: payment.status,
     });
+  }
+
+  // Mark webhook as processed
+  if (webhookId) {
+    processedWebhooks.add(webhookId);
   }
 }

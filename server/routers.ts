@@ -56,12 +56,15 @@ export const appRouter = router({
       }));
     }),
 
-    detail: publicProcedure
+    detail: protectedProcedure
       .input(z.object({ orderId: z.number().int().positive() }))
-      .query(async ({ input }) => {
+      .query(async ({ input, ctx }) => {
         const order = await getOrderById(input.orderId);
         if (!order) {
           throw new Error("Pedido no encontrado");
+        }
+        if (order.userId && order.userId !== ctx.user.id) {
+          throw new Error("No autorizado para ver este pedido");
         }
 
         return {
